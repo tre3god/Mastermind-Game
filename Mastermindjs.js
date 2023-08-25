@@ -31,9 +31,33 @@ const generateSecret = () => {
     colorCount[randomInt].count++;
   }
   console.log(secret);
+  return secret;
 };
 
 /*----- functions -----*/
+function changeButtonColor() {
+  const pChoice = document.querySelectorAll(".playerChoice");
+  const checkers = document.querySelectorAll(".checker");
+
+  let clickedvalue = "";
+
+  // Add a click event listener to the playerChoice
+  for (let i = 0; i < pChoice.length; i++) {
+    pChoice[i].addEventListener("click", function clickButton() {
+      clickedvalue = pChoice[i].getAttribute("value");
+      console.log(clickedvalue);
+    });
+  }
+
+  //Add click event listener to answer buttons
+  for (let i = 0; i < checkers.length; i++) {
+    checkers[i].addEventListener("click", function changevalue() {
+      checkers[i].style.backgroundColor = clickedvalue;
+    });
+  }
+}
+
+changeButtonColor();
 
 //Before Game Start
 // Generate secret code
@@ -43,10 +67,12 @@ const generateSecret = () => {
 
 //After Game
 
-const render = () => {};
+function render() {}
 
 function init() {
   render();
+
+  // Start button generate secret code
 
   const startButton1 = document.querySelector("#startButton");
   startButton1.addEventListener("click", generateSecret);

@@ -32,32 +32,31 @@ h1 {
     border: 0px;
 }
 
-#obutton {
+.playerChoice {
     width: 80px;
     height: 80px;
+}
+
+#obutton {
+    background-color: orange;
 }
 
 #ybutton {
-    width: 80px;
-    height: 80px;
+    background-color: yellow;
 }
 
 #bbutton {
-    width: 80px;
-    height: 80px;
+    background-color: blue;
 }
 
 #gbutton {
-    width: 80px;
-    height: 80px;
+    background-color: green;
 }
 
 #purplebutton {
-    width: 80px;
-    height: 80px;
+    background-color: purple;
 }
 
 #pinkbutton {
-    width: 80px;
-    height: 80px;
+    background-color: pink;
 }
