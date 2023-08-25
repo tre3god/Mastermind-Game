@@ -1,0 +1,15 @@
+h1 {
+    color: blue;
+}
+
+button {
+    border: 1px solid black;
+    text-decoration: none;
+    display: inline;
+    margin: 5px;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+  }
+
+
