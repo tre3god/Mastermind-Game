@@ -2,7 +2,7 @@ h1 {
     color: blue;
 }
 
-button {
+#startButton {
     border: 1px solid black;
     text-decoration: none;
     display: inline;
@@ -13,3 +13,51 @@ button {
   }
 
 
+
+.mastercode {
+    width: 50px;
+    height: 36px;
+ 
+
+}
+
+.hole {
+    width:  50px;
+    height: 35px;
+}
+
+.smallhole {
+    width: 15px;
+    height: 20px;
+    border: 0px;
+}
+
+#obutton {
+    width: 80px;
+    height: 80px;
+}
+
+#ybutton {
+    width: 80px;
+    height: 80px;
+}
+
+#bbutton {
+    width: 80px;
+    height: 80px;
+}
+
+#gbutton {
+    width: 80px;
+    height: 80px;
+}
+
+#purplebutton {
+    width: 80px;
+    height: 80px;
+}
+
+#pinkbutton {
+    width: 80px;
+    height: 80px;
+}
