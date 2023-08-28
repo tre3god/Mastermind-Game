@@ -102,30 +102,34 @@ const checking = document.querySelectorAll(".checking");
 const submitArray = [];
 
 // generate ID, assign 0,1,2,3 to buttons and push to submitArray
-for (i = 0; i < checking.length; i++) {
-  checking[i].setAttribute("id", i);
 
-  const id = checking[i].id;
-  const value = checking[i].getAttribute("value");
+const submit = () => {
+  for (i = 0; i < checking.length; i++) {
+    checking[i].setAttribute("id", i);
 
-  submitArray.push({ id, value });
+    const id = checking[i].id;
+    const value = checking[i].getAttribute("value");
 
-  console.log(secret);
+    submitArray.push({ id, value });
 
-  // results for absolutely correct
-  if (
-    secret[i] === checking[i].value &&
-    secret.indexOf(secret[i]) === parseInt(checking[i].id)
-  ) {
-    console.log("show red peg");
-  } else if (secret.includes(value) && secret.indexOf(value) !== i) {
-    console.log("Show white peg");
-    // now check other spaces whether color is existent, if yes show white peg first (can edit bug later)
-  } else {
-    console.log("dont show peg");
+    console.log(secret);
+    console.log(submitArray);
+
+    // results for absolutely correct
+    if (
+      secret[i] === checking[i].value &&
+      secret.indexOf(secret[i]) === parseInt(checking[i].id)
+    ) {
+      console.log("show red peg");
+    } else if (secret.includes(value) && secret.indexOf(value) !== i) {
+      console.log("Show white peg");
+      // now check other spaces whether color is existent, if yes show white peg first (can edit bug later)
+    } else {
+      console.log("dont show peg");
+    }
   }
-}
-console.log(submitArray);
+};
+submit();
 
 // console.log(submitArray[0].value);
 // console.log(secret);
