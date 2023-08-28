@@ -36,9 +36,6 @@ const generateSecret = () => {
 };
 generateSecret();
 
-const startButton1 = document.querySelector("#startButton");
-startButton1.addEventListener("click", generateSecret);
-
 // click submitButton, run submit and check answer against secret
 const submitButton = () => {
   for (let i = 0; i < submitBut.length; i++) {
@@ -89,6 +86,8 @@ function init() {
   render();
 
   // Start button generate secret code
+  const startButton1 = document.querySelector("#startButton");
+  startButton1.addEventListener("click", generateSecret);
 }
 
 init();
@@ -111,19 +110,21 @@ const checking = document.querySelectorAll(".checking");
 // console.log(checking[0].id);
 
 const submitArray = [];
+const feedbackArray = [];
 
 // generate ID, assign 0,1,2,3 to buttons and push to submitArray
 
 const submitAns = () => {
   let i = 0;
   const hints = document.querySelectorAll(".hint");
+
   console.log(submitArray);
 
   secretCopy = secret.slice();
   for (i = 0; i < checking.length; i++) {
     checking[i].setAttribute("id", i);
-    const value = checking[i].getAttribute("value");
     const id = checking[i].id;
+    const value = checking[i].getAttribute("value");
 
     submitArray.push({ id, value });
 
@@ -142,21 +143,34 @@ const submitAns = () => {
       hints[i].value = [i];
       console.log("secretCopy", secretCopy);
       console.log("secret", secret);
+      hints[i].style.backgroundColor = "red";
     }
   }
 
   for (let j = 0; j < checking.length; j++) {
     const value = checking[j].getAttribute("value");
+    hints[j].getAttribute("value");
 
     if (
       secretCopy.includes(value) &&
-      secretCopy.indexOf(value, 1) !== j
-      // hints[i].value === ""
+      secretCopy.indexOf(value, 1) !== j &&
+      hints[j].value === ""
     ) {
       console.log(j + " Show white peg");
+
+      // fix splice, need fix wording "example"
+      const removed = secretCopy.splice(
+        secretCopy.indexOf(value),
+        1,
+        "example" + "1"
+      );
+
+      console.log(secretCopy);
       console.log(value);
       // add another value once checked to prevent checking items with values
       hints[j].value = [j];
+      hints[j].style.backgroundColor = "white";
+
       // now check other spaces whether color is existent, if yes show white peg first (can edit bug later)
       // once checked add another value and add in condition to not make sure that value is undefined
     }

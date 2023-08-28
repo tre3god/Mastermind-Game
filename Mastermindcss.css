@@ -17,8 +17,6 @@ h1 {
 .mastercode {
     width: 50px;
     height: 36px;
- 
-
 }
 
 .hole {
@@ -59,4 +57,9 @@ h1 {
 
 #pinkbutton {
     background-color: pink;
+}
+
+.hint {
+    background-color: grey
+
 }
