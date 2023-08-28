@@ -2,6 +2,7 @@
 
 /*----- constants -----*/
 const colorCode = ["orange", "yellow", "blue", "green", "purple", "pink"];
+const submitBut = document.querySelectorAll(".submit");
 
 /*----- state variables -----*/
 //Secret code (changes every game/reset)
@@ -30,12 +31,26 @@ const generateSecret = () => {
     secret.push(selectedColor);
     colorCount[randomInt].count++;
   }
-  // console.log(secret);
+  console.log(secret);
   return secret;
 };
 generateSecret();
 
+const startButton1 = document.querySelector("#startButton");
+startButton1.addEventListener("click", generateSecret);
+
+// click submitButton, run submit and check answer against secret
+const submitButton = () => {
+  for (let i = 0; i < submitBut.length; i++) {
+    submitBut[i].addEventListener("click", function submitButt() {
+      submitAns();
+    });
+  }
+};
+submitButton();
+
 /*----- functions -----*/
+// for changing button color when clicked
 function changeButtonColor() {
   const pChoice = document.querySelectorAll(".playerChoice");
   const checkers = document.querySelectorAll(".checking");
@@ -46,7 +61,7 @@ function changeButtonColor() {
   for (let i = 0; i < pChoice.length; i++) {
     pChoice[i].addEventListener("click", function clickButton() {
       clickedvalue = pChoice[i].getAttribute("value");
-      console.log(clickedvalue);
+      // console.log(clickedvalue);
     });
   }
 
@@ -58,7 +73,6 @@ function changeButtonColor() {
     });
   }
 }
-
 changeButtonColor();
 
 //Before Game Start
@@ -75,9 +89,6 @@ function init() {
   render();
 
   // Start button generate secret code
-
-  const startButton1 = document.querySelector("#startButton");
-  startButton1.addEventListener("click", generateSecret);
 }
 
 init();
@@ -103,33 +114,51 @@ const submitArray = [];
 
 // generate ID, assign 0,1,2,3 to buttons and push to submitArray
 
-const submit = () => {
+const submitAns = () => {
+  let i = 0;
+  const hints = document.querySelectorAll(".hint");
+  const value = checking[i].getAttribute("value");
+  console.log(submitArray);
+
+  secretCopy = secret.slice();
   for (i = 0; i < checking.length; i++) {
     checking[i].setAttribute("id", i);
-
     const id = checking[i].id;
-    const value = checking[i].getAttribute("value");
 
     submitArray.push({ id, value });
 
-    console.log(secret);
-    console.log(submitArray);
+    const hints = document.querySelectorAll(".hint");
+    hints[i].getAttribute("value");
 
     // results for absolutely correct
     if (
-      secret[i] === checking[i].value &&
-      secret.indexOf(secret[i]) === parseInt(checking[i].id)
+      secretCopy[i] === checking[i].value &&
+      secretCopy.indexOf(secretCopy[i], i) === parseInt(checking[i].id) &&
+      hints[i].value !== i
     ) {
-      console.log("show red peg");
-    } else if (secret.includes(value) && secret.indexOf(value) !== i) {
-      console.log("Show white peg");
+      console.log(i + " " + secretCopy[i] + " show red peg");
+      const removed = secretCopy.splice(i, 1, secretCopy[i] + "1");
+      checking[i].value = 0;
+      hints[i].value = [i];
+      console.log("secretCopy", secretCopy);
+      console.log("secret", secret);
+    }
+  }
+
+  for (j = 0; j < checking.length; i++) {
+    if (
+      secretCopy.includes(value) &&
+      secretCopy.indexOf(value) !== j &&
+      hints[j].value === ""
+    ) {
+      console.log(j + " Show white peg");
+      // add another value once checked to prevent checking items with values
+      hints[j].value = [j];
       // now check other spaces whether color is existent, if yes show white peg first (can edit bug later)
-    } else {
-      console.log("dont show peg");
+      // once checked add another value and add in condition to not make sure that value is undefined
     }
   }
 };
-submit();
 
 // console.log(submitArray[0].value);
 // console.log(secret);
