@@ -175,6 +175,7 @@ const submitAns = () => {
       // once checked add another value and add in condition to not make sure that value is undefined
     }
   }
+  removeCheckingClass();
 };
 
 // console.log(submitArray[0].value);
@@ -186,3 +187,20 @@ const submitAns = () => {
 
 // create for loop, everytime it is pushed into submitArray, will check against secret
 // if submitArray[0] !== true, check against submitArray[i] i--
+
+// removes checking only row 10 and disable submit button after click
+// need to fix to row10 -1 ...
+function removeCheckingClass() {
+  // take all row10 checking
+  const buttons = document.querySelectorAll("#row10 .checking");
+
+  // remove all row10 checking class
+  buttons.forEach(function (button) {
+    button.classList.remove("checking");
+    button.classList.add("checked");
+  });
+
+  // disable the submit button
+  const submitButton = document.querySelector("#row10 .submit");
+  submitButton.disabled = true;
+}

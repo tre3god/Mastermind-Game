@@ -19,17 +19,6 @@ h1 {
     height: 36px;
 }
 
-.hole {
-    width:  50px;
-    height: 35px;
-}
-
-.smallhole {
-    width: 15px;
-    height: 20px;
-    border: 0px;
-}
-
 .playerChoice {
     width: 80px;
     height: 80px;
@@ -60,6 +49,22 @@ h1 {
 }
 
 .hint {
-    background-color: grey
+    background-color: grey;
+    width: 20px;
+    height: 20px;
+}
 
+
+
+.checking {
+    background-color: grey;
+    width: 20px;
+    height: 20px;
+    display: inline-block
+}
+
+.checked {
+    pointer-events: none;
+    width: 15px;
+    height: 15px;
 }
