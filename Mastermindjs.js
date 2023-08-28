@@ -117,12 +117,12 @@ const submitArray = [];
 const submitAns = () => {
   let i = 0;
   const hints = document.querySelectorAll(".hint");
-  const value = checking[i].getAttribute("value");
   console.log(submitArray);
 
   secretCopy = secret.slice();
   for (i = 0; i < checking.length; i++) {
     checking[i].setAttribute("id", i);
+    const value = checking[i].getAttribute("value");
     const id = checking[i].id;
 
     submitArray.push({ id, value });
@@ -145,13 +145,16 @@ const submitAns = () => {
     }
   }
 
-  for (j = 0; j < checking.length; i++) {
+  for (let j = 0; j < checking.length; j++) {
+    const value = checking[j].getAttribute("value");
+
     if (
       secretCopy.includes(value) &&
-      secretCopy.indexOf(value) !== j &&
-      hints[j].value === ""
+      secretCopy.indexOf(value, 1) !== j
+      // hints[i].value === ""
     ) {
       console.log(j + " Show white peg");
+      console.log(value);
       // add another value once checked to prevent checking items with values
       hints[j].value = [j];
       // now check other spaces whether color is existent, if yes show white peg first (can edit bug later)
