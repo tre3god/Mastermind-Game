@@ -54,6 +54,12 @@ h1 {
     height: 20px;
 }
 
+.hintCleared {
+    background-color: grey;
+    pointer-events: none;
+    width: 15px;
+    height: 15px;
+}
 
 
 .checking {

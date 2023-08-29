@@ -52,6 +52,14 @@ const submitButton = (event) => {
 // for changing button color when clicked
 function changeButtonColor() {
   const pChoice = document.querySelectorAll(".playerChoice");
+
+  // // get row ID
+  // const clickedRowId = event.target.closest("tr").id;
+  // //check which row ID
+  // const p = parseInt(clickedRowId.replace("row", ""));
+  // // take all row ID based on click
+  // const checkers = document.querySelectorAll("#" + clickedRowId + " .checking");
+
   const checkers = document.querySelectorAll(".checking");
 
   let clickedvalue = "";
@@ -89,7 +97,7 @@ function removeCheckingClass(event) {
   const submitButton = document.querySelector("#" + clickedRowId + " .submit");
   submitButton.disabled = true;
 
-  // remove all clicked row checking class
+  // remove all clicked row CHECKING class
   buttons.forEach(function (button) {
     if (button.classList.contains("checking")) {
       button.classList.remove("checking");
@@ -99,7 +107,28 @@ function removeCheckingClass(event) {
   });
 }
 
-// to enable next rows's click ability
+// when submit will lock feedback and change box size to show its locked in
+function removeHintClass(event) {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+
+  //check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
+
+  // take all row ID based on click
+  const buttons = document.querySelectorAll("#" + clickedRowId + " .hint");
+
+  // remove all clicked row HINT class
+  buttons.forEach(function (button) {
+    if (button.classList.contains("hint")) {
+      button.classList.remove("hint");
+      button.classList.add("hintCleared");
+      // console.log(p);
+    }
+  });
+}
+
+// to enable next rows's ANSWER click ability
 function enableNextRow(event) {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
@@ -124,8 +153,32 @@ function enableNextRow(event) {
   });
 }
 
+// to enable next row's HINT click ability
+function enableNextHint(event) {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+  console.log(clickedRowId);
+  // change to a number
+  const rowNumber = parseInt(clickedRowId.replace("row", ""));
+
+  // Subtract 1
+  const newRowNumber = rowNumber - 1;
+  console.log(newRowNumber);
+  console.log("#row" + newRowNumber + " .unhinted");
+
+  const buttons = document.querySelectorAll(
+    "#row" + newRowNumber + " .unhinted"
+  );
+  console.log(buttons);
+  buttons.forEach(function (button) {
+    if (button.classList.contains("unhinted")) {
+      button.classList.remove("unhinted");
+      button.classList.add("hint");
+    }
+  });
+}
+
 const submitAns = (event) => {
-  let i = 0;
   const hints = document.querySelectorAll(".hint");
 
   console.log(submitArray);
@@ -185,7 +238,9 @@ const submitAns = (event) => {
     }
   }
   removeCheckingClass(event);
+  removeHintClass(event);
   enableNextRow(event);
+  enableNextHint(event);
 };
 
 //Before Game Start
