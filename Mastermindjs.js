@@ -42,11 +42,9 @@ const generateSecret = () => {
 generateSecret();
 
 // click submitButton, run submit and check answer against secret
-const submitButton = () => {
+const submitButton = (event) => {
   for (let i = 0; i < submitBut.length; i++) {
-    submitBut[i].addEventListener("click", function submitButt() {
-      submitAns();
-    });
+    submitBut[i].addEventListener("click", submitAns);
   }
 };
 
@@ -96,7 +94,7 @@ function removeCheckingClass(event) {
     if (button.classList.contains("checking")) {
       button.classList.remove("checking");
       button.classList.add("checked");
-      console.log(p);
+      // console.log(p);
     }
   });
 }
@@ -105,17 +103,19 @@ function removeCheckingClass(event) {
 function enableNextRow(event) {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
-
+  console.log(clickedRowId);
   // change to a number
   const rowNumber = parseInt(clickedRowId.replace("row", ""));
 
   // Subtract 1
   const newRowNumber = rowNumber - 1;
   console.log(newRowNumber);
+  console.log("#row" + newRowNumber + " .unchecked");
 
   const buttons = document.querySelectorAll(
-    "#row" + newRowNumber + " .checking"
+    "#row" + newRowNumber + " .unchecked"
   );
+  console.log(buttons);
   buttons.forEach(function (button) {
     if (button.classList.contains("unchecked")) {
       button.classList.remove("unchecked");
@@ -124,7 +124,7 @@ function enableNextRow(event) {
   });
 }
 
-const submitAns = () => {
+const submitAns = (event) => {
   let i = 0;
   const hints = document.querySelectorAll(".hint");
 
@@ -184,7 +184,8 @@ const submitAns = () => {
       // once checked add another value and add in condition to not make sure that value is undefined
     }
   }
-  removeCheckingClass();
+  removeCheckingClass(event);
+  enableNextRow(event);
 };
 
 //Before Game Start
