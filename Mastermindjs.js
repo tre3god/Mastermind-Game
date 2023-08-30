@@ -36,7 +36,6 @@ const generateSecret = () => {
   console.log(secret);
   return secret;
 };
-generateSecret();
 
 /*----- functions -----*/
 // for changing button color when clicked
@@ -129,8 +128,6 @@ function openNextSubmit(event) {
       button.classList.add("submit");
     }
   });
-  const submitButton = document.querySelector("#" + clickedRowId + " .submit");
-  submitButton.disabled = true;
 }
 
 // when submit will lock feedback and change box size to show its locked in
@@ -228,7 +225,7 @@ function checkWin() {
   });
 
   if (allRed) {
-    alert("All buttons are red.");
+    alert("You got the correct answer! Good Job!");
     const board = document.querySelector("#gameBoard");
     board.classList.add("gameBoardDisabled");
   }
