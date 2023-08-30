@@ -109,6 +109,30 @@ function removeCheckingClass(event) {
   });
 }
 
+function openNextSubmit(event) {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+  console.log(clickedRowId);
+  // change to a number
+  const rowNumber = parseInt(clickedRowId.replace("row", ""));
+
+  // Subtract 1
+  const newRowNumber = rowNumber - 1;
+  console.log(newRowNumber);
+  const unsubmitted = document.querySelectorAll(
+    "#row" + newRowNumber + " .unsubmitted"
+  );
+
+  unsubmitted.forEach(function (button) {
+    if (button.classList.contains("unsubmitted")) {
+      button.classList.remove("unsubmitted");
+      button.classList.add("submit");
+    }
+  });
+  const submitButton = document.querySelector("#" + clickedRowId + " .submit");
+  submitButton.disabled = true;
+}
+
 // when submit will lock feedback and change box size to show its locked in
 function removeHintClass(event) {
   // get row ID
@@ -181,7 +205,7 @@ function enableNextHint(event) {
 }
 
 // when win, disable board.
-function checkWinLose() {
+function checkWin() {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
   // check which row ID
@@ -302,28 +326,6 @@ function checkingNotFilled(event) {
   }
 }
 
-// function checkingNotFilled(event) {
-//   // Get the clicked row's ID
-//   const clickedRowId = event.target.closest("tr").id;
-
-//   // Find all checking buttons within the clicked row
-//   const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
-
-//   for (let i = 0; i < checking.length; i++) {
-//     // Check if the checking button has the "value" attribute
-//     const valueAttribute = checking[i].getAttribute("value");
-//     if (!valueAttribute) {
-//       console.log(
-//         "Checking button " +
-//           i +
-//           " in row " +
-//           clickedRowId +
-//           " does not have a value attribute."
-//       );
-//     }
-//   }
-// }
-
 // when click submit
 const submitAns = (event) => {
   secretCopy = secret.slice();
@@ -331,11 +333,12 @@ const submitAns = (event) => {
   partialCorrect();
 
   removeCheckingClass(event);
+  openNextSubmit(event);
   removeHintClass(event);
   enableNextRow(event);
   enableNextHint(event);
   nextRowButtonColor(event);
-  checkWinLose();
+  checkWin();
 };
 
 //Before Game Start
@@ -348,6 +351,26 @@ const submitAns = (event) => {
 
 function render() {}
 
+// function init() {
+//   render();
+
+//   // Start button generate secret code
+//   const startButton1 = document.querySelector("#startButton");
+//   startButton1.addEventListener("click", generateSecret);
+
+//   // click submitButton, run submit and check answer against secret
+//   const submitBut = document.querySelectorAll(".submit");
+//   for (let i = 0; i < submitBut.length; i++) {
+//     submitBut[i].addEventListener("click", submitAns);
+//   }
+
+//   // after submit, cannot click previous choices and submit button
+//   // const submit1Button = document.querySelectorAll(".submit");
+//   // submit1Button.forEach(function (submitButton) {
+//   //   submitButton.addEventListener("click", removeCheckingClass);
+//   //   // submitButton.addEventListener("click", enableNextRow);
+//   // });
+// }
 function init() {
   render();
 
@@ -355,18 +378,13 @@ function init() {
   const startButton1 = document.querySelector("#startButton");
   startButton1.addEventListener("click", generateSecret);
 
-  // click submitButton, run submit and check answer against secret
-  const submitBut = document.querySelectorAll(".submit");
-  for (let i = 0; i < submitBut.length; i++) {
-    submitBut[i].addEventListener("click", submitAns);
-  }
-
-  // after submit, cannot click previous choices and submit button
-  // const submit1Button = document.querySelectorAll(".submit");
-  // submit1Button.forEach(function (submitButton) {
-  //   submitButton.addEventListener("click", removeCheckingClass);
-  //   // submitButton.addEventListener("click", enableNextRow);
-  // });
+  // Use event delegation to handle click events on the game board
+  const gameBoard = document.querySelector("#gameBoard");
+  gameBoard.addEventListener("click", function (event) {
+    if (event.target.classList.contains("submit")) {
+      submitAns(event);
+    }
+  });
 }
 
 init();

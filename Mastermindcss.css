@@ -74,3 +74,19 @@ h1 {
     width: 15px;
     height: 15px;
 }
+
+.gameBoardDisabled {
+    pointer-events: none;
+}
+
+.unsubmitted {
+    display: none;
+}
+
+.submitted {
+    pointer-events: none;
+}
+
+.submit {
+    display: inline-block;
+}
