@@ -48,9 +48,24 @@ const submitButton = (event) => {
   }
 };
 
+// const nextRowColorClick = (event) => {
+//   // get row ID
+//   const clickedRowId = event.target.closest("tr").id;
+
+//   //check which row ID
+//   const p = parseInt(clickedRowId.replace("row", ""));
+
+//   // take all row ID based on click
+//   const checkers = document.querySelectorAll("#" + clickedRowId + " .checking");
+
+//   for (let i = 0; i < checkers.length; i++) {
+//     submitBut[i].addEventListener("click", changeButtonColor);
+//   }
+// };
+
 /*----- functions -----*/
 // for changing button color when clicked
-function changeButtonColor() {
+function changeButtonColor(event) {
   const pChoice = document.querySelectorAll(".playerChoice");
 
   // // get row ID
@@ -81,6 +96,30 @@ function changeButtonColor() {
   }
 }
 changeButtonColor();
+
+function nextRowButtonColor(event) {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+
+  // check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
+
+  // change to number
+  const rowNumber = parseInt(clickedRowId.replace("row", ""));
+
+  // subtract 1
+  const newRowNumber = rowNumber - 1;
+  console.log(newRowNumber);
+
+  // target next row
+  const buttons = document.querySelectorAll(
+    "#row" + newRowNumber + " .checking"
+  );
+
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", changeButtonColor);
+  }
+}
 
 // when submit will lock answer in row and disable submit button
 function removeCheckingClass(event) {
@@ -241,6 +280,7 @@ const submitAns = (event) => {
   removeHintClass(event);
   enableNextRow(event);
   enableNextHint(event);
+  nextRowButtonColor(event);
 };
 
 //Before Game Start
@@ -268,6 +308,7 @@ function init() {
   submit1Button.forEach(function (submitButton) {
     submitButton.addEventListener("click", removeCheckingClass);
     submitButton.addEventListener("click", enableNextRow);
+    submitButton.addEventListener("click", changeButtonColor);
   });
 }
 
