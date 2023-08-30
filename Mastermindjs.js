@@ -2,8 +2,6 @@
 
 /*----- constants -----*/
 const colorCode = ["orange", "yellow", "blue", "green", "purple", "pink"];
-const submitBut = document.querySelectorAll(".submit");
-console.log(submitBut);
 
 const submitArray = [];
 const feedbackArray = [];
@@ -39,28 +37,6 @@ const generateSecret = () => {
   return secret;
 };
 generateSecret();
-
-// click submitButton, run submit and check answer against secret
-const submitButton = (event) => {
-  for (let i = 0; i < submitBut.length; i++) {
-    submitBut[i].addEventListener("click", submitAns);
-  }
-};
-
-// const nextRowColorClick = (event) => {
-//   // get row ID
-//   const clickedRowId = event.target.closest("tr").id;
-
-//   //check which row ID
-//   const p = parseInt(clickedRowId.replace("row", ""));
-
-//   // take all row ID based on click
-//   const checkers = document.querySelectorAll("#" + clickedRowId + " .checking");
-
-//   for (let i = 0; i < checkers.length; i++) {
-//     submitBut[i].addEventListener("click", changeButtonColor);
-//   }
-// };
 
 /*----- functions -----*/
 // for changing button color when clicked
@@ -204,21 +180,45 @@ function enableNextHint(event) {
   });
 }
 
-const submitAns = (event) => {
+// when win, disable board.
+function checkWinLose() {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
-
-  //check which row ID
+  // check which row ID
   const p = parseInt(clickedRowId.replace("row", ""));
+  // take all HINTCLEARED based on clicked row
+  const hintsCleared = document.querySelectorAll(
+    "#" + clickedRowId + " .hintCleared"
+  );
 
+  let allRed = true; // Assume all buttons are red initially
+
+  hintsCleared.forEach(function (hintCleared) {
+    const computedStyle = getComputedStyle(hintCleared);
+    const backgroundColor = computedStyle.backgroundColor;
+
+    if (backgroundColor !== "rgb(255, 0, 0)") {
+      allRed = false;
+      return;
+    }
+  });
+
+  if (allRed) {
+    alert("All buttons are red.");
+    const board = document.querySelector("#gameBoard");
+    board.classList.add("gameBoardDisabled");
+  }
+}
+
+function absoluteCorrect() {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+  // check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
   // take all row ID based on click
   const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
-
   const hints = document.querySelectorAll(".hint");
 
-  console.log(submitArray);
-
-  secretCopy = secret.slice();
   for (i = 0; i < checking.length; i++) {
     checking[i].setAttribute("id", i);
     const id = checking[i].id;
@@ -228,6 +228,7 @@ const submitAns = (event) => {
 
     const hints = document.querySelectorAll(".hint");
     hints[i].getAttribute("value");
+
     const sameColor = secretCopy[i] === checking[i].value;
     const samePosition =
       secretCopy.indexOf(secretCopy[i], i) === parseInt(checking[i].id);
@@ -243,6 +244,16 @@ const submitAns = (event) => {
       hints[i].style.backgroundColor = "red";
     }
   }
+}
+
+function partialCorrect() {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+  // check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
+  // take all row ID based on click
+  const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
+  const hints = document.querySelectorAll(".hint");
 
   for (let j = 0; j < checking.length; j++) {
     const value = checking[j].getAttribute("value");
@@ -272,11 +283,59 @@ const submitAns = (event) => {
       // once checked add another value and add in condition to not make sure that value is undefined
     }
   }
+}
+
+// incomplete
+function checkingNotFilled(event) {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+  // check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
+  // take all row ID based on click
+  const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
+
+  for (i = 0; i < checking.length; i++) {
+    if (checking[i].getAttribute("value") !== true) {
+      console.log(i + " value is empty");
+    } else {
+    }
+  }
+}
+
+// function checkingNotFilled(event) {
+//   // Get the clicked row's ID
+//   const clickedRowId = event.target.closest("tr").id;
+
+//   // Find all checking buttons within the clicked row
+//   const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
+
+//   for (let i = 0; i < checking.length; i++) {
+//     // Check if the checking button has the "value" attribute
+//     const valueAttribute = checking[i].getAttribute("value");
+//     if (!valueAttribute) {
+//       console.log(
+//         "Checking button " +
+//           i +
+//           " in row " +
+//           clickedRowId +
+//           " does not have a value attribute."
+//       );
+//     }
+//   }
+// }
+
+// when click submit
+const submitAns = (event) => {
+  secretCopy = secret.slice();
+  absoluteCorrect();
+  partialCorrect();
+
   removeCheckingClass(event);
   removeHintClass(event);
   enableNextRow(event);
   enableNextHint(event);
   nextRowButtonColor(event);
+  checkWinLose();
 };
 
 //Before Game Start
@@ -296,15 +355,18 @@ function init() {
   const startButton1 = document.querySelector("#startButton");
   startButton1.addEventListener("click", generateSecret);
 
-  // will check answer against secret
-  submitButton();
+  // click submitButton, run submit and check answer against secret
+  const submitBut = document.querySelectorAll(".submit");
+  for (let i = 0; i < submitBut.length; i++) {
+    submitBut[i].addEventListener("click", submitAns);
+  }
 
   // after submit, cannot click previous choices and submit button
-  const submit1Button = document.querySelectorAll(".submit");
-  submit1Button.forEach(function (submitButton) {
-    submitButton.addEventListener("click", removeCheckingClass);
-    submitButton.addEventListener("click", enableNextRow);
-  });
+  // const submit1Button = document.querySelectorAll(".submit");
+  // submit1Button.forEach(function (submitButton) {
+  //   submitButton.addEventListener("click", removeCheckingClass);
+  //   // submitButton.addEventListener("click", enableNextRow);
+  // });
 }
 
 init();
