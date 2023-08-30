@@ -142,3 +142,7 @@ div {
     display: inline-block;
 }
 
+#first {
+    display: none;
+}
+

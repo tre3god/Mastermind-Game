@@ -1,14 +1,11 @@
-// console.log("test");
-
 /*----- constants -----*/
 const colorCode = ["orange", "yellow", "blue", "green", "purple", "pink"];
-
-const submitArray = [];
-const feedbackArray = [];
 
 /*----- state variables -----*/
 //Secret code (changes every game/reset)
 const secret = [];
+const submitArray = [];
+const feedbackArray = [];
 
 /*----- cached elements  -----*/
 
@@ -37,6 +34,12 @@ const generateSecret = () => {
   return secret;
 };
 
+// initialize first submit button
+const firstSubmit = () => {
+  const firstSub = document.getElementById("first");
+  firstSub.style.display = "inline-block";
+};
+
 // function to move img
 const moveImg = () => {
   const imgs = document.querySelectorAll("img[src]"); // Select all img elements with src attribute
@@ -49,6 +52,7 @@ const moveImg = () => {
   });
 };
 
+// reset button
 function refreshPage() {
   window.location.reload();
 }
@@ -266,7 +270,7 @@ function checkLose() {
       clickedRowId === "row1" &&
       showAlert
     ) {
-      alert("Not all pegs are red. Try again!");
+      alert("Nice Try! Click The Reset Button to Try Again!");
       showAlert = false;
     }
   });
@@ -380,36 +384,8 @@ const submitAns = (event) => {
   checkLose();
 };
 
-//Before Game Start
-// Generate secret code
-
-//During Game
-//Return value when player make a choice
-
-//After Game
-
 function render() {}
 
-// function init() {
-//   render();
-
-//   // Start button generate secret code
-//   const startButton1 = document.querySelector("#startButton");
-//   startButton1.addEventListener("click", generateSecret);
-
-//   // click submitButton, run submit and check answer against secret
-//   const submitBut = document.querySelectorAll(".submit");
-//   for (let i = 0; i < submitBut.length; i++) {
-//     submitBut[i].addEventListener("click", submitAns);
-//   }
-
-//   // after submit, cannot click previous choices and submit button
-//   // const submit1Button = document.querySelectorAll(".submit");
-//   // submit1Button.forEach(function (submitButton) {
-//   //   submitButton.addEventListener("click", removeCheckingClass);
-//   //   // submitButton.addEventListener("click", enableNextRow);
-//   // });
-// }
 function init() {
   render();
 
@@ -417,6 +393,7 @@ function init() {
   const startButton1 = document.querySelector("#startButton");
   startButton1.addEventListener("click", generateSecret);
   startButton1.addEventListener("click", moveImg);
+  startButton1.addEventListener("click", firstSubmit);
 
   // Use event delegation to handle click events on the game board
   const gameBoard = document.querySelector("#gameBoard");
@@ -428,78 +405,3 @@ function init() {
 }
 
 init();
-
-//breakdown when submit what to check for
-
-//1. put answer into an array
-//2. check color of a1 vs secretcode if !== to all 4, produce white
-//3. check color of a1 if, absolute correct, produce red
-//4. check color of a1, if color is correct, position wrong, produce white
-
-// to note, a2 needs to check a1's color, a3 needs to check a1,a2, a4 needs to check a1,a2,a3
-
-//* when click submit, change class to "checked" and "checked" will disable clicking
-//* after click submit, the row above will be clickable
-//* row above will generate submit button
-
-//! will add on submit proc later, dishing out the inner codes first
-// console.log(checking[0].id);
-
-// generate ID, assign 0,1,2,3 to buttons and push to submitArray
-
-// console.log(submitArray[0].value);
-// console.log(secret);
-
-// if (submitArray[0].value === secret[0]) {
-//   console.log("show red peg");
-// }
-
-// create for loop, everytime it is pushed into submitArray, will check against secret
-// if submitArray[0] !== true, check against submitArray[i] i--
-
-// removes checking only row 10 and disable submit button after click
-// need to fix to row10 -1 ...
-
-// function removeCheckingClass() {
-//   let p = 10;
-//   // take all row10 checking
-//   const buttons = document.querySelectorAll("#row" + p + " .checking");
-
-//   // disable the submit button
-//   const submitButton = document.querySelector("#row" + p + " .submit");
-//   submitButton.disabled = true;
-
-//   // remove all row10 checking class
-//   buttons.forEach(function (button) {
-//     if (button.classList.contains("checking")) {
-//       button.classList.remove("checking");
-//       button.classList.add("checked");
-//       console.log(buttons);
-//     }
-//   });
-//   p--;
-// }
-
-// function removeCheckingClass(event) {
-//   const clickedRowId = event.target.closest("tr").id;
-//   console.log(clickedRowId);
-
-//   const p = parseInt(clickedRowId.replace("row", ""));
-//   const buttons = document.querySelectorAll("#" + clickedRowId + " .checking");
-
-//   const submitButton = document.querySelector("#" + clickedRowId + " .submit");
-//   submitButton.disabled = true;
-
-//   // remove all rowX checking class
-//   buttons.forEach(function (button) {
-//     if (button.classList.contains("checking")) {
-//       button.classList.remove("checking");
-//       button.classList.add("checked");
-//       console.log(p);
-//     }
-//   });
-// }
-
-// document.querySelectorAll(".submit").forEach(function (submitButton) {
-//   submitButton.addEventListener("click", removeCheckingClass);
-// });
