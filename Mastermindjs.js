@@ -201,7 +201,7 @@ function enableNextHint(event) {
   });
 }
 
-// when win, disable board.
+// when win, disable board, show alert.
 function checkWin() {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
@@ -229,6 +229,31 @@ function checkWin() {
     const board = document.querySelector("#gameBoard");
     board.classList.add("gameBoardDisabled");
   }
+}
+
+// when at row1, no red feedbacks, show alert
+function checkLose() {
+  const clickedRowId = event.target.closest("tr").id;
+  console.log("clickedrowid " + clickedRowId);
+
+  const hintsCleared = document.querySelectorAll(
+    "#" + clickedRowId + " .hintCleared"
+  );
+  let showAlert = true;
+
+  hintsCleared.forEach(function (hintCleared) {
+    const computedStyle = getComputedStyle(hintCleared);
+    const backgroundColor = computedStyle.backgroundColor;
+
+    if (
+      backgroundColor !== "rgb(255, 0, 0)" &&
+      clickedRowId === "row1" &&
+      showAlert
+    ) {
+      alert("Not all pegs are red. Try again!");
+      showAlert = false;
+    }
+  });
 }
 
 function absoluteCorrect() {
@@ -336,6 +361,7 @@ const submitAns = (event) => {
   enableNextHint(event);
   nextRowButtonColor(event);
   checkWin();
+  checkLose();
 };
 
 //Before Game Start
