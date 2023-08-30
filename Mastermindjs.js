@@ -37,6 +37,22 @@ const generateSecret = () => {
   return secret;
 };
 
+// function to move img
+const moveImg = () => {
+  const imgs = document.querySelectorAll("img[src]"); // Select all img elements with src attribute
+
+  imgs.forEach((element) => {
+    if (element.classList.contains("mastercode")) {
+      element.classList.remove("mastercode");
+    }
+    element.classList.add("marquee");
+  });
+};
+
+function refreshPage() {
+  window.location.reload();
+}
+
 /*----- functions -----*/
 // for changing button color when clicked
 function changeButtonColor(event) {
@@ -400,6 +416,7 @@ function init() {
   // Start button generate secret code
   const startButton1 = document.querySelector("#startButton");
   startButton1.addEventListener("click", generateSecret);
+  startButton1.addEventListener("click", moveImg);
 
   // Use event delegation to handle click events on the game board
   const gameBoard = document.querySelector("#gameBoard");
