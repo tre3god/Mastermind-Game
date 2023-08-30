@@ -7,7 +7,6 @@ console.log(submitBut);
 
 const submitArray = [];
 const feedbackArray = [];
-const checking = document.querySelectorAll(".checking");
 
 /*----- state variables -----*/
 //Secret code (changes every game/reset)
@@ -67,14 +66,6 @@ const submitButton = (event) => {
 // for changing button color when clicked
 function changeButtonColor(event) {
   const pChoice = document.querySelectorAll(".playerChoice");
-
-  // // get row ID
-  // const clickedRowId = event.target.closest("tr").id;
-  // //check which row ID
-  // const p = parseInt(clickedRowId.replace("row", ""));
-  // // take all row ID based on click
-  // const checkers = document.querySelectorAll("#" + clickedRowId + " .checking");
-
   const checkers = document.querySelectorAll(".checking");
 
   let clickedvalue = "";
@@ -100,17 +91,13 @@ changeButtonColor();
 function nextRowButtonColor(event) {
   // get row ID
   const clickedRowId = event.target.closest("tr").id;
-
   // check which row ID
   const p = parseInt(clickedRowId.replace("row", ""));
-
   // change to number
   const rowNumber = parseInt(clickedRowId.replace("row", ""));
-
   // subtract 1
   const newRowNumber = rowNumber - 1;
   console.log(newRowNumber);
-
   // target next row
   const buttons = document.querySelectorAll(
     "#row" + newRowNumber + " .checking"
@@ -218,6 +205,15 @@ function enableNextHint(event) {
 }
 
 const submitAns = (event) => {
+  // get row ID
+  const clickedRowId = event.target.closest("tr").id;
+
+  //check which row ID
+  const p = parseInt(clickedRowId.replace("row", ""));
+
+  // take all row ID based on click
+  const checking = document.querySelectorAll("#" + clickedRowId + " .checking");
+
   const hints = document.querySelectorAll(".hint");
 
   console.log(submitArray);
@@ -308,7 +304,6 @@ function init() {
   submit1Button.forEach(function (submitButton) {
     submitButton.addEventListener("click", removeCheckingClass);
     submitButton.addEventListener("click", enableNextRow);
-    submitButton.addEventListener("click", changeButtonColor);
   });
 }
 
